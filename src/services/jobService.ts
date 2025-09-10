@@ -29,7 +29,7 @@ export interface JobFilters {
 
 import { JobStorageService } from '../services/jobStorageService';
 
-const API_BASE_URL = 'https://trinidad-turner-install-zus.trycloudflare.com';
+const API_BASE_URL = 'https://trinidad-turner-install-zus.trycloudflar';
 
 // Cache for API responses
 const cache = new Map<string, { data: any; timestamp: number }>();
