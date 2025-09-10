@@ -27,7 +27,7 @@ export interface JobFilters {
   skills?: string[];
 }
 
-const API_BASE_URL = 'https://induced-jewellery-postings-postcards.trycloudflare.com';
+const API_BASE_URL = 'https://trinidad-turner-install-zus.trycloudflare.com';
 
 // Cache for API responses
 const cache = new Map<string, { data: any; timestamp: number }>();
