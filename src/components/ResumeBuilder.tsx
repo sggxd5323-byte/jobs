@@ -102,8 +102,10 @@ const ResumeBuilder: React.FC = () => {
         return;
       }
       
-      generateResumePDF(data, selectedTemplate);
+      // Save data before generating PDF
       localStorage.setItem('resumeData', JSON.stringify(data));
+      
+      generateResumePDF(data, selectedTemplate);
       toast.success('Resume generated successfully!');
     } catch (error) {
       toast.error('Error generating resume. Please try again.');
@@ -484,7 +486,7 @@ const ResumeBuilder: React.FC = () => {
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
-        <Plus className="极-5 h-5" />
+        <Plus className="w-5 h-5" />
         <span>Add Project</span>
       </motion.button>
     </div>
@@ -589,7 +591,10 @@ const ResumeBuilder: React.FC = () => {
 
                 <motion.button
                   type="submit"
-                  onClick={handleSubmit(onSubmit)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSubmit(onSubmit)();
+                  }}
                   className="flex items-center space-x-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
                   whileHover={{ scale: 1.02, boxShadow: '0 4px 12px -2px rgba(59, 130, 246, 0.3)' }}
                   whileTap={{ scale: 0.98 }}
@@ -671,14 +676,24 @@ const ResumeBuilder: React.FC = () => {
 
                   <motion.button
                     type="button"
-                    onClick={() => setShowPreview(true)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const currentData = watchedData;
+                      if (!currentData.personalInfo.name || !currentData.personalInfo.email) {
+                        toast.error('Please fill in your name and email before generating resume.');
+                        return;
+                      }
+                      localStorage.setItem('resumeData', JSON.stringify(currentData));
+                      generateResumePDF(currentData, selectedTemplate);
+                      toast.success('Resume generated successfully!');
+                    }}
                     className="flex items-center justify-center space-x-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    aria-label="Preview resume"
+                    aria-label="Download resume as PDF"
                   >
-                    <Eye className="w-5 h-5" />
-                    <span className="font-semibold">Preview Resume</span>
+                    <Download className="w-5 h-5" />
+                    <span className="font-semibold">Download PDF</span>
                   </motion.button>
                 </div>
               </div>

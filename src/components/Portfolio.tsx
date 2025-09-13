@@ -153,6 +153,41 @@ const Portfolio: React.FC = () => {
 
   const handlePreviewPortfolio = () => {
     try {
+      // Load resume data if portfolio data is empty
+      if (!portfolioData.personalInfo.name) {
+        const savedData = localStorage.getItem('resumeData');
+        if (savedData) {
+          const resumeData = JSON.parse(savedData);
+          const updatedPortfolioData = {
+            personalInfo: {
+              name: resumeData.personalInfo?.name || '',
+              email: resumeData.personalInfo?.email || '',
+              phone: resumeData.personalInfo?.phone || '',
+              location: resumeData.personalInfo?.location || '',
+              summary: resumeData.personalInfo?.summary || '',
+              linkedin: resumeData.personalInfo?.linkedin || '',
+              github: resumeData.personalInfo?.github || ''
+            },
+            skills: resumeData.skills || [],
+            projects: resumeData.projects || [],
+            experience: resumeData.experience || [],
+            education: resumeData.education || []
+          };
+          setPortfolioData(updatedPortfolioData);
+          
+          const templateNames = ['modern', 'creative', 'developer'];
+          const htmlContent = generateGitHubPages(updatedPortfolioData, templateNames[selectedTemplate]);
+          
+          const previewWindow = window.open('', '_blank');
+          if (previewWindow) {
+            previewWindow.document.write(htmlContent);
+            previewWindow.document.close();
+            toast.success('Portfolio preview opened in new tab!');
+          }
+          return;
+        }
+      }
+      
       const templateNames = ['modern', 'creative', 'developer'];
       const htmlContent = generateGitHubPages(portfolioData, templateNames[selectedTemplate]);
       

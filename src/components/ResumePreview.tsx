@@ -38,6 +38,25 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
   };
 
   const handleDownloadReport = () => {
+    // Download the actual resume PDF, not just the report
+    try {
+      if (!resumeData.personalInfo.name || !resumeData.personalInfo.email) {
+        toast.error('Please fill in your name and email before generating resume.');
+        return;
+      }
+      
+      // Import the generateResumePDF function
+      import('../utils/pdfGenerator').then(({ generateResumePDF }) => {
+        generateResumePDF(resumeData, templateId);
+        toast.success('Resume PDF downloaded successfully!');
+      });
+    } catch (error) {
+      toast.error('Error generating resume PDF. Please try again.');
+      console.error('Resume PDF generation error:', error);
+    }
+  };
+
+  const handleDownloadAIReport = () => {
     const doc = new jsPDF();
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(22);
@@ -183,6 +202,15 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
               <span>Download PDF</span>
             </motion.button>
 
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleDownloadAIReport}
+              className="flex items-center space-x-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+            >
+              <Download className="w-5 h-5" />
+              <span>AI Report</span>
+            </motion.button>
             <button
               aria-label="Close preview"
               onClick={onClose}
