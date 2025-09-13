@@ -12,650 +12,588 @@ const TemplateRenderer: React.FC<TemplateRendererProps> = ({ templateId, resumeD
   const template = getTemplateById(templateId);
 
   if (!template) {
-    return <div>Template not found</div>;
+    return <div className="p-8 text-center text-gray-500">Template not found</div>;
   }
 
+  const scale = preview ? 0.4 : 1;
+  const fontSize = (size: number) => size * scale;
+  const spacing = (space: number) => space * scale;
+
   const renderTemplate = () => {
-    switch (template.category) {
-      case 'modern':
-        return renderModernTemplate();
-      case 'classic':
-        return renderClassicTemplate();
-      case 'creative':
-        return renderCreativeTemplate();
-      case 'executive':
-        return renderExecutiveTemplate();
-      case 'technical':
-        return renderTechnicalTemplate();
-      case 'minimalist':
-        return renderMinimalistTemplate();
-      case 'artistic':
-        return renderArtisticTemplate();
-      case 'corporate':
-        return renderCorporateTemplate();
-      case 'startup':
-        return renderStartupTemplate();
-      case 'academic':
-        return renderAcademicTemplate();
+    switch (templateId) {
+      case 'career-catalyst':
+        return renderCareerCatalyst();
+      case 'nextstep-profile':
+        return renderNextStepProfile();
+      case 'visionpath-cv':
+        return renderVisionPathCV();
+      case 'talentedge-resume':
+        return renderTalentEdgeResume();
+      case 'futureready-profile':
+        return renderFutureReadyProfile();
+      case 'projourney-resume':
+        return renderProJourneyResume();
+      case 'skillsphere-cv':
+        return renderSkillSphereCV();
+      case 'opportune-profile':
+        return renderOpportuneProfile();
+      case 'elevatecareer-resume':
+        return renderElevateCareerResume();
+      case 'growthtrack-cv':
+        return renderGrowthTrackCV();
+      case 'jobquest-profile':
+        return renderJobQuestProfile();
+      case 'dreamhire-resume':
+        return renderDreamHireResume();
       default:
-        return renderModernTemplate();
+        return renderCareerCatalyst();
     }
   };
 
-  const renderModernTemplate = () => (
-    <div className="font-sans bg-white text-gray-800 p-8 max-w-4xl mx-auto">
-      {/* Header */}
-      <header className="border-b-4 border-blue-600 pb-6 mb-8">
-        <h1 className="text-4xl font-bold text-blue-600 mb-2">{resumeData.personalInfo.name || 'Your Name'}</h1>
-        <div className="flex flex-wrap gap-4 text-gray-600">
-          {resumeData.personalInfo.email && <span>📧 {resumeData.personalInfo.email}</span>}
-          {resumeData.personalInfo.phone && <span>📱 {resumeData.personalInfo.phone}</span>}
-          {resumeData.personalInfo.location && <span>📍 {resumeData.personalInfo.location}</span>}
-          {resumeData.personalInfo.linkedin && <span>💼 LinkedIn</span>}
-          {resumeData.personalInfo.github && <span>🔗 GitHub</span>}
-        </div>
-      </header>
-
-      {/* Summary */}
-      {resumeData.personalInfo.summary && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-blue-600 pl-4">Professional Summary</h2>
-          <p className="text-gray-700 leading-relaxed">{resumeData.personalInfo.summary}</p>
-        </section>
-      )}
-
-      {/* Experience */}
-      {resumeData.experience.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-blue-600 pl-4">Work Experience</h2>
-          {resumeData.experience.map((exp, index) => (
-            <div key={index} className="mb-6 p-4 bg-gray-50 rounded-lg">
-              <h3 className="text-xl font-semibold text-blue-600">{exp.title}</h3>
-              <p className="text-gray-600 font-medium">{exp.company} | {exp.duration}</p>
-              <p className="text-gray-700 mt-2">{exp.description}</p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {/* Education */}
-      {resumeData.education.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-blue-600 pl-4">Education</h2>
-          {resumeData.education.map((edu, index) => (
-            <div key={index} className="mb-4 p-4 bg-gray-50 rounded-lg">
-              <h3 className="text-xl font-semibold text-blue-600">{edu.degree}</h3>
-              <p className="text-gray-600">{edu.institution}</p>
-              <p className="text-gray-500">{edu.year}{edu.gpa && ` | GPA: ${edu.gpa}`}</p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {/* Skills */}
-      {resumeData.skills.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-blue-600 pl-4">Skills</h2>
-          <div className="flex flex-wrap gap-2">
-            {resumeData.skills.map((skill, index) => (
-              <span key={index} className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
-                {skill}
-              </span>
-            ))}
+  // CareerCatalyst Resume - Two-column with sidebar
+  function renderCareerCatalyst() {
+    return (
+      <div style={{
+        fontFamily: 'Inter, sans-serif',
+        maxWidth: preview ? 300 : 800,
+        minHeight: preview ? 425 : 1100,
+        background: '#FFFFFF',
+        display: 'flex',
+        margin: '0 auto',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+        borderRadius: spacing(8)
+      }}>
+        {/* Left Sidebar */}
+        <div style={{
+          width: '35%',
+          background: '#1E3A8A',
+          color: 'white',
+          padding: spacing(24)
+        }}>
+          <h1 style={{
+            fontSize: fontSize(24),
+            fontWeight: 700,
+            marginBottom: spacing(8),
+            wordBreak: 'break-word'
+          }}>
+            {resumeData.personalInfo.name || 'Your Name'}
+          </h1>
+          
+          <div style={{ marginBottom: spacing(24), fontSize: fontSize(10) }}>
+            {resumeData.personalInfo.email && <div style={{ marginBottom: spacing(8) }}>📧 {resumeData.personalInfo.email}</div>}
+            {resumeData.personalInfo.phone && <div style={{ marginBottom: spacing(8) }}>📱 {resumeData.personalInfo.phone}</div>}
+            {resumeData.personalInfo.location && <div style={{ marginBottom: spacing(8) }}>📍 {resumeData.personalInfo.location}</div>}
+            {resumeData.personalInfo.linkedin && <div style={{ marginBottom: spacing(8) }}>💼 LinkedIn</div>}
+            {resumeData.personalInfo.github && <div style={{ marginBottom: spacing(8) }}>🔗 GitHub</div>}
           </div>
-        </section>
-      )}
 
-      {/* Projects */}
-      {resumeData.projects && resumeData.projects.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-blue-600 pl-4">Projects</h2>
-          {resumeData.projects.map((project, index) => (
-            <div key={index} className="mb-6 p-4 bg-gray-50 rounded-lg">
-              <h3 className="text-xl font-semibold text-blue-600">{project.name}</h3>
-              <p className="text-gray-700 mt-2">{project.description}</p>
-              {project.technologies && (
-                <p className="text-gray-600 mt-2"><strong>Technologies:</strong> {project.technologies}</p>
-              )}
-              {project.link && (
-                <a href={project.link} className="text-blue-600 hover:underline mt-2 inline-block">
-                  🔗 View Project
-                </a>
-              )}
+          {resumeData.skills.length > 0 && (
+            <div>
+              <h3 style={{ fontSize: fontSize(14), fontWeight: 600, marginBottom: spacing(12), color: '#F8FAFC' }}>
+                SKILLS
+              </h3>
+              {resumeData.skills.map((skill, index) => (
+                <div key={index} style={{
+                  fontSize: fontSize(9),
+                  marginBottom: spacing(6),
+                  padding: spacing(4),
+                  background: 'rgba(255,255,255,0.1)',
+                  borderRadius: spacing(4)
+                }}>
+                  {skill}
+                </div>
+              ))}
             </div>
-          ))}
-        </section>
-      )}
-    </div>
-  );
-
-  const renderClassicTemplate = () => (
-    <div className="font-serif bg-white text-black p-8 max-w-4xl mx-auto">
-      {/* Header */}
-      <header className="text-center border-b-2 border-black pb-4 mb-8">
-        <h1 className="text-3xl font-bold mb-2">{resumeData.personalInfo.name || 'Your Name'}</h1>
-        <div className="text-sm">
-          {resumeData.personalInfo.email && <span>{resumeData.personalInfo.email} | </span>}
-          {resumeData.personalInfo.phone && <span>{resumeData.personalInfo.phone} | </span>}
-          {resumeData.personalInfo.location && <span>{resumeData.personalInfo.location}</span>}
+          )}
         </div>
-      </header>
 
-      {/* Summary */}
-      {resumeData.personalInfo.summary && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold mb-2 border-b border-black">SUMMARY</h2>
-          <p className="text-sm leading-relaxed">{resumeData.personalInfo.summary}</p>
-        </section>
-      )}
+        {/* Right Content */}
+        <div style={{ flex: 1, padding: spacing(24) }}>
+          {resumeData.personalInfo.summary && (
+            <section style={{ marginBottom: spacing(24) }}>
+              <h2 style={{ fontSize: fontSize(16), fontWeight: 600, color: '#1E3A8A', marginBottom: spacing(12) }}>
+                PROFESSIONAL SUMMARY
+              </h2>
+              <p style={{ fontSize: fontSize(10), lineHeight: 1.5, color: '#374151' }}>
+                {resumeData.personalInfo.summary}
+              </p>
+            </section>
+          )}
 
-      {/* Experience */}
-      {resumeData.experience.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold mb-2 border-b border-black">EXPERIENCE</h2>
-          {resumeData.experience.map((exp, index) => (
-            <div key={index} className="mb-4">
-              <h3 className="font-bold">{exp.title}</h3>
-              <p className="text-sm italic">{exp.company} | {exp.duration}</p>
-              <p className="text-sm mt-1">{exp.description}</p>
-            </div>
-          ))}
-        </section>
-      )}
+          {resumeData.experience.length > 0 && (
+            <section style={{ marginBottom: spacing(24) }}>
+              <h2 style={{ fontSize: fontSize(16), fontWeight: 600, color: '#1E3A8A', marginBottom: spacing(12) }}>
+                WORK EXPERIENCE
+              </h2>
+              {resumeData.experience.map((exp, index) => (
+                <div key={index} style={{ marginBottom: spacing(16) }}>
+                  <h3 style={{ fontSize: fontSize(12), fontWeight: 600, color: '#1F2937' }}>
+                    {exp.title}
+                  </h3>
+                  <p style={{ fontSize: fontSize(10), color: '#3B82F6', fontWeight: 500, marginBottom: spacing(4) }}>
+                    {exp.company} • {exp.duration}
+                  </p>
+                  <p style={{ fontSize: fontSize(9), color: '#6B7280', lineHeight: 1.4 }}>
+                    {exp.description}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
 
-      {/* Education */}
-      {resumeData.education.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold mb-2 border-b border-black">EDUCATION</h2>
-          {resumeData.education.map((edu, index) => (
-            <div key={index} className="mb-2">
-              <h3 className="font-bold">{edu.degree}</h3>
-              <p className="text-sm">{edu.institution} | {edu.year}{edu.gpa && ` | GPA: ${edu.gpa}`}</p>
-            </div>
-          ))}
-        </section>
-      )}
+          {resumeData.education.length > 0 && (
+            <section style={{ marginBottom: spacing(24) }}>
+              <h2 style={{ fontSize: fontSize(16), fontWeight: 600, color: '#1E3A8A', marginBottom: spacing(12) }}>
+                EDUCATION
+              </h2>
+              {resumeData.education.map((edu, index) => (
+                <div key={index} style={{ marginBottom: spacing(12) }}>
+                  <h3 style={{ fontSize: fontSize(11), fontWeight: 600, color: '#1F2937' }}>
+                    {edu.degree}
+                  </h3>
+                  <p style={{ fontSize: fontSize(9), color: '#6B7280' }}>
+                    {edu.institution} • {edu.year}{edu.gpa && ` • GPA: ${edu.gpa}`}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
 
-      {/* Skills */}
-      {resumeData.skills.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold mb-2 border-b border-black">SKILLS</h2>
-          <p className="text-sm">{resumeData.skills.join(', ')}</p>
-        </section>
-      )}
-
-      {/* Projects */}
-      {resumeData.projects && resumeData.projects.length > 0 && (
-        <section className="mb-6">
-          <h2 className="text-xl font-bold mb-2 border-b border-black">PROJECTS</h2>
-          {resumeData.projects.map((project, index) => (
-            <div key={index} className="mb-3">
-              <h3 className="font-bold">{project.name}</h3>
-              <p className="text-sm">{project.description}</p>
-              {project.technologies && <p className="text-sm italic">Technologies: {project.technologies}</p>}
-            </div>
-          ))}
-        </section>
-      )}
-    </div>
-  );
-
-  const renderCreativeTemplate = () => (
-    <div className="font-sans bg-gradient-to-br from-purple-50 to-pink-50 text-gray-800 p-8 max-w-4xl mx-auto">
-      {/* Header */}
-      <header className="text-center mb-8">
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-          {resumeData.personalInfo.name || 'Your Name'}
-        </h1>
-        <div className="flex justify-center flex-wrap gap-4 text-gray-600">
-          {resumeData.personalInfo.email && <span>📧 {resumeData.personalInfo.email}</span>}
-          {resumeData.personalInfo.phone && <span>📱 {resumeData.personalInfo.phone}</span>}
-          {resumeData.personalInfo.location && <span>📍 {resumeData.personalInfo.location}</span>}
+          {resumeData.projects && resumeData.projects.length > 0 && (
+            <section>
+              <h2 style={{ fontSize: fontSize(16), fontWeight: 600, color: '#1E3A8A', marginBottom: spacing(12) }}>
+                PROJECTS
+              </h2>
+              {resumeData.projects.map((project, index) => (
+                <div key={index} style={{ marginBottom: spacing(16) }}>
+                  <h3 style={{ fontSize: fontSize(11), fontWeight: 600, color: '#1F2937' }}>
+                    {project.name}
+                  </h3>
+                  <p style={{ fontSize: fontSize(9), color: '#6B7280', lineHeight: 1.4, marginBottom: spacing(4) }}>
+                    {project.description}
+                  </p>
+                  {project.technologies && (
+                    <p style={{ fontSize: fontSize(8), color: '#3B82F6', fontStyle: 'italic' }}>
+                      Technologies: {project.technologies}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </section>
+          )}
         </div>
-      </header>
+      </div>
+    );
+  }
 
-      {/* Summary */}
-      {resumeData.personalInfo.summary && (
-        <section className="mb-8 bg-white p-6 rounded-2xl shadow-lg">
-          <h2 className="text-2xl font-bold text-purple-600 mb-4">✨ About Me</h2>
-          <p className="text-gray-700 leading-relaxed">{resumeData.personalInfo.summary}</p>
-        </section>
-      )}
-
-      {/* Experience */}
-      {resumeData.experience.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-3xl font-bold text-purple-600 mb-6 text-center">🚀 Experience</h2>
-          {resumeData.experience.map((exp, index) => (
-            <div key={index} className="bg-white p-6 rounded-2xl shadow-lg mb-4">
-              <h3 className="text-xl font-bold text-pink-600">{exp.title}</h3>
-              <p className="text-gray-600 font-medium">{exp.company} | {exp.duration}</p>
-              <p className="text-gray-700 mt-2">{exp.description}</p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {/* Skills */}
-      {resumeData.skills.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-3xl font-bold text-purple-600 mb-6 text-center">🛠️ Skills</h2>
-          <div className="flex flex-wrap gap-3 justify-center">
-            {resumeData.skills.map((skill, index) => (
-              <span key={index} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-medium">
-                {skill}
-              </span>
-            ))}
+  // NextStep Profile - Single column
+  function renderNextStepProfile() {
+    return (
+      <div style={{
+        fontFamily: 'Poppins, sans-serif',
+        maxWidth: preview ? 300 : 800,
+        minHeight: preview ? 425 : 1100,
+        background: '#FFFFFF',
+        padding: spacing(32),
+        margin: '0 auto',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+        borderRadius: spacing(8)
+      }}>
+        {/* Header */}
+        <header style={{ textAlign: 'center', marginBottom: spacing(32), borderBottom: '3px solid #0D9488', paddingBottom: spacing(16) }}>
+          <h1 style={{ fontSize: fontSize(32), fontWeight: 700, color: '#0D9488', marginBottom: spacing(8) }}>
+            {resumeData.personalInfo.name || 'Your Name'}
+          </h1>
+          <div style={{ fontSize: fontSize(12), color: '#374151', lineHeight: 1.6 }}>
+            {resumeData.personalInfo.email && <div>{resumeData.personalInfo.email}</div>}
+            {resumeData.personalInfo.phone && <div>{resumeData.personalInfo.phone}</div>}
+            {resumeData.personalInfo.location && <div>{resumeData.personalInfo.location}</div>}
           </div>
-        </section>
-      )}
+        </header>
 
-      {/* Projects */}
-      {resumeData.projects && resumeData.projects.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-3xl font-bold text-purple-600 mb-6 text-center">💡 Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {resumeData.personalInfo.summary && (
+          <section style={{ marginBottom: spacing(32) }}>
+            <h2 style={{ fontSize: fontSize(18), fontWeight: 600, color: '#0D9488', marginBottom: spacing(12) }}>
+              PROFESSIONAL SUMMARY
+            </h2>
+            <p style={{ fontSize: fontSize(11), lineHeight: 1.6, color: '#374151' }}>
+              {resumeData.personalInfo.summary}
+            </p>
+          </section>
+        )}
+
+        {resumeData.experience.length > 0 && (
+          <section style={{ marginBottom: spacing(32) }}>
+            <h2 style={{ fontSize: fontSize(18), fontWeight: 600, color: '#0D9488', marginBottom: spacing(16) }}>
+              WORK EXPERIENCE
+            </h2>
+            {resumeData.experience.map((exp, index) => (
+              <div key={index} style={{ marginBottom: spacing(20), paddingLeft: spacing(16), borderLeft: '2px solid #14B8A6' }}>
+                <h3 style={{ fontSize: fontSize(14), fontWeight: 600, color: '#1F2937' }}>
+                  {exp.title}
+                </h3>
+                <p style={{ fontSize: fontSize(11), color: '#0D9488', fontWeight: 500, marginBottom: spacing(8) }}>
+                  {exp.company} • {exp.duration}
+                </p>
+                <p style={{ fontSize: fontSize(10), color: '#6B7280', lineHeight: 1.5 }}>
+                  {exp.description}
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
+
+        {resumeData.skills.length > 0 && (
+          <section style={{ marginBottom: spacing(32) }}>
+            <h2 style={{ fontSize: fontSize(18), fontWeight: 600, color: '#0D9488', marginBottom: spacing(12) }}>
+              SKILLS
+            </h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: spacing(8) }}>
+              {resumeData.skills.map((skill, index) => (
+                <span key={index} style={{
+                  background: '#0D9488',
+                  color: 'white',
+                  padding: `${spacing(4)} ${spacing(12)}`,
+                  borderRadius: spacing(16),
+                  fontSize: fontSize(9),
+                  fontWeight: 500
+                }}>
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {resumeData.education.length > 0 && (
+          <section style={{ marginBottom: spacing(32) }}>
+            <h2 style={{ fontSize: fontSize(18), fontWeight: 600, color: '#0D9488', marginBottom: spacing(16) }}>
+              EDUCATION
+            </h2>
+            {resumeData.education.map((edu, index) => (
+              <div key={index} style={{ marginBottom: spacing(16) }}>
+                <h3 style={{ fontSize: fontSize(12), fontWeight: 600, color: '#1F2937' }}>
+                  {edu.degree}
+                </h3>
+                <p style={{ fontSize: fontSize(10), color: '#6B7280' }}>
+                  {edu.institution} • {edu.year}{edu.gpa && ` • GPA: ${edu.gpa}`}
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
+
+        {resumeData.projects && resumeData.projects.length > 0 && (
+          <section>
+            <h2 style={{ fontSize: fontSize(18), fontWeight: 600, color: '#0D9488', marginBottom: spacing(16) }}>
+              PROJECTS
+            </h2>
             {resumeData.projects.map((project, index) => (
-              <div key={index} className="bg-white p-6 rounded-2xl shadow-lg">
-                <h3 className="text-xl font-bold text-pink-600">{project.name}</h3>
-                <p className="text-gray-700 mt-2">{project.description}</p>
+              <div key={index} style={{ marginBottom: spacing(16) }}>
+                <h3 style={{ fontSize: fontSize(12), fontWeight: 600, color: '#1F2937' }}>
+                  {project.name}
+                </h3>
+                <p style={{ fontSize: fontSize(10), color: '#6B7280', lineHeight: 1.5, marginBottom: spacing(4) }}>
+                  {project.description}
+                </p>
                 {project.technologies && (
-                  <p className="text-gray-600 mt-2"><strong>Tech:</strong> {project.technologies}</p>
+                  <p style={{ fontSize: fontSize(9), color: '#0D9488', fontStyle: 'italic' }}>
+                    Technologies: {project.technologies}
+                  </p>
                 )}
               </div>
             ))}
-          </div>
-        </section>
-      )}
-    </div>
-  );
+          </section>
+        )}
+      </div>
+    );
+  }
 
-  const renderExecutiveTemplate = () => (
-    <div className="font-serif bg-white text-gray-900 p-8 max-w-4xl mx-auto">
-      {/* Header */}
-      <header className="border-b-4 border-gray-800 pb-6 mb-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-2">{resumeData.personalInfo.name || 'Your Name'}</h1>
-        <p className="text-xl text-gray-600 mb-4">Executive Professional</p>
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            {resumeData.personalInfo.email && <p>📧 {resumeData.personalInfo.email}</p>}
-            {resumeData.personalInfo.phone && <p>📱 {resumeData.personalInfo.phone}</p>}
+  // VisionPath CV - Executive style with bold header
+  function renderVisionPathCV() {
+    return (
+      <div style={{
+        fontFamily: 'Playfair Display, serif',
+        maxWidth: preview ? 300 : 800,
+        minHeight: preview ? 425 : 1100,
+        background: '#F5F5DC',
+        margin: '0 auto',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+        borderRadius: spacing(8)
+      }}>
+        {/* Bold Header */}
+        <header style={{
+          background: '#064E3B',
+          color: 'white',
+          padding: spacing(40),
+          textAlign: 'center'
+        }}>
+          <h1 style={{ fontSize: fontSize(36), fontWeight: 700, marginBottom: spacing(12) }}>
+            {resumeData.personalInfo.name || 'Your Name'}
+          </h1>
+          <p style={{ fontSize: fontSize(16), opacity: 0.9, marginBottom: spacing(16) }}>
+            Executive Professional
+          </p>
+          <div style={{ fontSize: fontSize(12), lineHeight: 1.6 }}>
+            {resumeData.personalInfo.email && <div>{resumeData.personalInfo.email}</div>}
+            {resumeData.personalInfo.phone && <div>{resumeData.personalInfo.phone}</div>}
+            {resumeData.personalInfo.location && <div>{resumeData.personalInfo.location}</div>}
           </div>
-          <div>
-            {resumeData.personalInfo.location && <p>📍 {resumeData.personalInfo.location}</p>}
-            {resumeData.personalInfo.linkedin && <p>💼 LinkedIn Profile</p>}
+        </header>
+
+        {/* Two-column content */}
+        <div style={{ display: 'flex', padding: spacing(32) }}>
+          <div style={{ flex: 2, paddingRight: spacing(24) }}>
+            {resumeData.personalInfo.summary && (
+              <section style={{ marginBottom: spacing(32) }}>
+                <h2 style={{ fontSize: fontSize(18), fontWeight: 600, color: '#064E3B', marginBottom: spacing(12), borderBottom: '2px solid #059669', paddingBottom: spacing(4) }}>
+                  EXECUTIVE SUMMARY
+                </h2>
+                <p style={{ fontSize: fontSize(11), lineHeight: 1.6, color: '#1F2937' }}>
+                  {resumeData.personalInfo.summary}
+                </p>
+              </section>
+            )}
+
+            {resumeData.experience.length > 0 && (
+              <section>
+                <h2 style={{ fontSize: fontSize(18), fontWeight: 600, color: '#064E3B', marginBottom: spacing(16), borderBottom: '2px solid #059669', paddingBottom: spacing(4) }}>
+                  PROFESSIONAL EXPERIENCE
+                </h2>
+                {resumeData.experience.map((exp, index) => (
+                  <div key={index} style={{ marginBottom: spacing(24), paddingLeft: spacing(16), borderLeft: '3px solid #10B981' }}>
+                    <h3 style={{ fontSize: fontSize(14), fontWeight: 600, color: '#064E3B' }}>
+                      {exp.title}
+                    </h3>
+                    <p style={{ fontSize: fontSize(11), color: '#059669', fontWeight: 500, marginBottom: spacing(8) }}>
+                      {exp.company} • {exp.duration}
+                    </p>
+                    <p style={{ fontSize: fontSize(10), color: '#374151', lineHeight: 1.5 }}>
+                      {exp.description}
+                    </p>
+                  </div>
+                ))}
+              </section>
+            )}
+          </div>
+
+          <div style={{ flex: 1 }}>
+            {resumeData.education.length > 0 && (
+              <section style={{ marginBottom: spacing(32) }}>
+                <h2 style={{ fontSize: fontSize(16), fontWeight: 600, color: '#064E3B', marginBottom: spacing(12) }}>
+                  EDUCATION
+                </h2>
+                {resumeData.education.map((edu, index) => (
+                  <div key={index} style={{ marginBottom: spacing(16) }}>
+                    <h3 style={{ fontSize: fontSize(11), fontWeight: 600, color: '#1F2937' }}>
+                      {edu.degree}
+                    </h3>
+                    <p style={{ fontSize: fontSize(9), color: '#6B7280' }}>
+                      {edu.institution}
+                    </p>
+                    <p style={{ fontSize: fontSize(9), color: '#6B7280' }}>
+                      {edu.year}
+                    </p>
+                  </div>
+                ))}
+              </section>
+            )}
+
+            {resumeData.projects && resumeData.projects.length > 0 && (
+              <section>
+                <h2 style={{ fontSize: fontSize(16), fontWeight: 600, color: '#064E3B', marginBottom: spacing(12) }}>
+                  KEY PROJECTS
+                </h2>
+                {resumeData.projects.map((project, index) => (
+                  <div key={index} style={{ marginBottom: spacing(16) }}>
+                    <h3 style={{ fontSize: fontSize(10), fontWeight: 600, color: '#1F2937' }}>
+                      {project.name}
+                    </h3>
+                    <p style={{ fontSize: fontSize(8), color: '#6B7280', lineHeight: 1.4 }}>
+                      {project.description}
+                    </p>
+                  </div>
+                ))}
+              </section>
+            )}
           </div>
         </div>
-      </header>
+      </div>
+    );
+  }
 
-      {/* Summary */}
-      {resumeData.personalInfo.summary && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">EXECUTIVE SUMMARY</h2>
-          <p className="text-gray-700 leading-relaxed text-lg">{resumeData.personalInfo.summary}</p>
-        </section>
-      )}
+  // TalentEdge Resume - Modern card-style
+  function renderTalentEdgeResume() {
+    return (
+      <div style={{
+        fontFamily: 'Inter, sans-serif',
+        maxWidth: preview ? 300 : 800,
+        minHeight: preview ? 425 : 1100,
+        background: '#F1F5F9',
+        padding: spacing(24),
+        margin: '0 auto',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+        borderRadius: spacing(12)
+      }}>
+        {/* Header Card */}
+        <div style={{
+          background: 'linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%)',
+          color: 'white',
+          padding: spacing(32),
+          borderRadius: spacing(16),
+          marginBottom: spacing(24),
+          textAlign: 'center'
+        }}>
+          <h1 style={{ fontSize: fontSize(28), fontWeight: 700, marginBottom: spacing(8) }}>
+            {resumeData.personalInfo.name || 'Your Name'}
+          </h1>
+          <p style={{ fontSize: fontSize(14), opacity: 0.9, marginBottom: spacing(16) }}>
+            {resumeData.experience[0]?.title || 'Professional'}
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: spacing(16), flexWrap: 'wrap', fontSize: fontSize(10) }}>
+            {resumeData.personalInfo.email && <span>📧 {resumeData.personalInfo.email}</span>}
+            {resumeData.personalInfo.phone && <span>📱 {resumeData.personalInfo.phone}</span>}
+            {resumeData.personalInfo.location && <span>📍 {resumeData.personalInfo.location}</span>}
+          </div>
+        </div>
 
-      {/* Experience */}
-      {resumeData.experience.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">PROFESSIONAL EXPERIENCE</h2>
-          {resumeData.experience.map((exp, index) => (
-            <div key={index} className="mb-6 border-l-4 border-gray-800 pl-6">
-              <h3 className="text-xl font-bold text-gray-800">{exp.title}</h3>
-              <p className="text-gray-600 font-medium">{exp.company} | {exp.duration}</p>
-              <p className="text-gray-700 mt-2">{exp.description}</p>
-            </div>
-          ))}
-        </section>
-      )}
+        {/* Content Cards */}
+        {resumeData.personalInfo.summary && (
+          <div style={{
+            background: 'white',
+            padding: spacing(24),
+            borderRadius: spacing(12),
+            marginBottom: spacing(16),
+            boxShadow: '0 4px 16px rgba(0,0,0,0.08)'
+          }}>
+            <h2 style={{ fontSize: fontSize(16), fontWeight: 600, color: '#1E40AF', marginBottom: spacing(12) }}>
+              PROFESSIONAL SUMMARY
+            </h2>
+            <p style={{ fontSize: fontSize(11), lineHeight: 1.6, color: '#374151' }}>
+              {resumeData.personalInfo.summary}
+            </p>
+          </div>
+        )}
 
-      {/* Skills */}
-      {resumeData.skills.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">CORE COMPETENCIES</h2>
-          <div className="grid grid-cols-2 gap-4">
-            {resumeData.skills.map((skill, index) => (
-              <div key={index} className="flex items-center">
-                <span className="w-2 h-2 bg-gray-800 rounded-full mr-3"></span>
-                <span className="text-gray-700">{skill}</span>
+        {resumeData.experience.length > 0 && (
+          <div style={{
+            background: 'white',
+            padding: spacing(24),
+            borderRadius: spacing(12),
+            marginBottom: spacing(16),
+            boxShadow: '0 4px 16px rgba(0,0,0,0.08)'
+          }}>
+            <h2 style={{ fontSize: fontSize(16), fontWeight: 600, color: '#1E40AF', marginBottom: spacing(16) }}>
+              WORK EXPERIENCE
+            </h2>
+            {resumeData.experience.map((exp, index) => (
+              <div key={index} style={{ marginBottom: spacing(20), paddingBottom: spacing(16), borderBottom: index < resumeData.experience.length - 1 ? '1px solid #E5E7EB' : 'none' }}>
+                <h3 style={{ fontSize: fontSize(13), fontWeight: 600, color: '#1F2937' }}>
+                  {exp.title}
+                </h3>
+                <p style={{ fontSize: fontSize(11), color: '#3B82F6', fontWeight: 500, marginBottom: spacing(8) }}>
+                  {exp.company} • {exp.duration}
+                </p>
+                <p style={{ fontSize: fontSize(10), color: '#6B7280', lineHeight: 1.5 }}>
+                  {exp.description}
+                </p>
               </div>
             ))}
           </div>
-        </section>
-      )}
-    </div>
-  );
+        )}
 
-  const renderTechnicalTemplate = () => (
-    <div className="font-mono bg-gray-900 text-green-400 p-8 max-w-4xl mx-auto">
-      {/* Header */}
-      <header className="border-b-2 border-green-400 pb-4 mb-8">
-        <h1 className="text-3xl font-bold text-green-400 mb-2">{resumeData.personalInfo.name || 'Your Name'}</h1>
-        <p className="text-green-300">// Software Engineer & Developer</p>
-        <div className="mt-4 text-sm">
-          {resumeData.personalInfo.email && <p>📧 {resumeData.personalInfo.email}</p>}
-          {resumeData.personalInfo.phone && <p>📱 {resumeData.personalInfo.phone}</p>}
-          {resumeData.personalInfo.location && <p>📍 {resumeData.personalInfo.location}</p>}
-          {resumeData.personalInfo.github && <p>🔗 GitHub: {resumeData.personalInfo.github}</p>}
-        </div>
-      </header>
-
-      {/* Summary */}
-      {resumeData.personalInfo.summary && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-green-400 mb-4">// ABOUT</h2>
-          <p className="text-green-300 leading-relaxed">{resumeData.personalInfo.summary}</p>
-        </section>
-      )}
-
-      {/* Skills */}
-      {resumeData.skills.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-green-400 mb-4">// TECHNICAL SKILLS</h2>
-          <div className="grid grid-cols-2 gap-4">
-            {resumeData.skills.map((skill, index) => (
-              <div key={index} className="flex items-center">
-                <span className="text-green-500 mr-2">{'>'}</span>
-                <span className="text-green-300">{skill}</span>
+        <div style={{ display: 'flex', gap: spacing(16) }}>
+          {resumeData.skills.length > 0 && (
+            <div style={{
+              flex: 1,
+              background: 'white',
+              padding: spacing(24),
+              borderRadius: spacing(12),
+              boxShadow: '0 4px 16px rgba(0,0,0,0.08)'
+            }}>
+              <h2 style={{ fontSize: fontSize(16), fontWeight: 600, color: '#1E40AF', marginBottom: spacing(12) }}>
+                SKILLS
+              </h2>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: spacing(6) }}>
+                {resumeData.skills.map((skill, index) => (
+                  <span key={index} style={{
+                    background: '#60A5FA',
+                    color: 'white',
+                    padding: `${spacing(4)} ${spacing(8)}`,
+                    borderRadius: spacing(12),
+                    fontSize: fontSize(8),
+                    fontWeight: 500
+                  }}>
+                    {skill}
+                  </span>
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Experience */}
-      {resumeData.experience.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-green-400 mb-4">// EXPERIENCE</h2>
-          {resumeData.experience.map((exp, index) => (
-            <div key={index} className="mb-6 border-l-2 border-green-400 pl-4">
-              <h3 className="text-lg font-bold text-green-400">{exp.title}</h3>
-              <p className="text-green-300 text-sm">{exp.company} | {exp.duration}</p>
-              <p className="text-green-300 mt-2">{exp.description}</p>
             </div>
-          ))}
-        </section>
-      )}
+          )}
 
-      {/* Projects */}
-      {resumeData.projects && resumeData.projects.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-green-400 mb-4">// PROJECTS</h2>
-          {resumeData.projects.map((project, index) => (
-            <div key={index} className="mb-4 border-l-2 border-green-400 pl-4">
-              <h3 className="text-lg font-bold text-green-400">{project.name}</h3>
-              <p className="text-green-300">{project.description}</p>
-              {project.technologies && (
-                <p className="text-green-500 text-sm mt-1">Tech: {project.technologies}</p>
-              )}
+          {resumeData.education.length > 0 && (
+            <div style={{
+              flex: 1,
+              background: 'white',
+              padding: spacing(24),
+              borderRadius: spacing(12),
+              boxShadow: '0 4px 16px rgba(0,0,0,0.08)'
+            }}>
+              <h2 style={{ fontSize: fontSize(16), fontWeight: 600, color: '#1E40AF', marginBottom: spacing(12) }}>
+                EDUCATION
+              </h2>
+              {resumeData.education.map((edu, index) => (
+                <div key={index} style={{ marginBottom: spacing(12) }}>
+                  <h3 style={{ fontSize: fontSize(10), fontWeight: 600, color: '#1F2937' }}>
+                    {edu.degree}
+                  </h3>
+                  <p style={{ fontSize: fontSize(9), color: '#6B7280' }}>
+                    {edu.institution}
+                  </p>
+                  <p style={{ fontSize: fontSize(9), color: '#6B7280' }}>
+                    {edu.year}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </section>
-      )}
-    </div>
-  );
-
-  const renderMinimalistTemplate = () => (
-    <div className="font-sans bg-white text-black p-8 max-w-3xl mx-auto">
-      {/* Header */}
-      <header className="text-center mb-12">
-        <h1 className="text-4xl font-light mb-2">{resumeData.personalInfo.name || 'Your Name'}</h1>
-        <div className="text-sm text-gray-600 space-y-1">
-          {resumeData.personalInfo.email && <p>{resumeData.personalInfo.email}</p>}
-          {resumeData.personalInfo.phone && <p>{resumeData.personalInfo.phone}</p>}
-          {resumeData.personalInfo.location && <p>{resumeData.personalInfo.location}</p>}
+          )}
         </div>
-      </header>
+      </div>
+    );
+  }
 
-      {/* Summary */}
-      {resumeData.personalInfo.summary && (
-        <section className="mb-12">
-          <p className="text-gray-700 leading-relaxed text-center">{resumeData.personalInfo.summary}</p>
-        </section>
-      )}
+  // Add more template renderers for the remaining templates...
+  function renderFutureReadyProfile() {
+    return renderNextStepProfile(); // Placeholder - implement unique design
+  }
 
-      {/* Experience */}
-      {resumeData.experience.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-lg font-medium mb-6 border-b border-gray-300 pb-2">Experience</h2>
-          {resumeData.experience.map((exp, index) => (
-            <div key={index} className="mb-8">
-              <h3 className="font-medium">{exp.title}</h3>
-              <p className="text-sm text-gray-600">{exp.company} • {exp.duration}</p>
-              <p className="text-gray-700 mt-2">{exp.description}</p>
-            </div>
-          ))}
-        </section>
-      )}
+  function renderProJourneyResume() {
+    return renderTalentEdgeResume(); // Placeholder - implement unique design
+  }
 
-      {/* Skills */}
-      {resumeData.skills.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-lg font-medium mb-6 border-b border-gray-300 pb-2">Skills</h2>
-          <p className="text-gray-700">{resumeData.skills.join(' • ')}</p>
-        </section>
-      )}
-    </div>
-  );
+  function renderSkillSphereCV() {
+    return renderCareerCatalyst(); // Placeholder - implement unique design
+  }
 
-  const renderArtisticTemplate = () => (
-    <div className="font-serif bg-gradient-to-br from-yellow-50 to-orange-50 text-gray-800 p-8 max-w-4xl mx-auto">
-      {/* Header */}
-      <header className="text-center mb-8">
-        <h1 className="text-5xl font-bold text-orange-600 mb-4">{resumeData.personalInfo.name || 'Your Name'}</h1>
-        <div className="flex justify-center flex-wrap gap-4 text-gray-600">
-          {resumeData.personalInfo.email && <span>📧 {resumeData.personalInfo.email}</span>}
-          {resumeData.personalInfo.phone && <span>📱 {resumeData.personalInfo.phone}</span>}
-          {resumeData.personalInfo.location && <span>📍 {resumeData.personalInfo.location}</span>}
-        </div>
-      </header>
+  function renderOpportuneProfile() {
+    return renderNextStepProfile(); // Placeholder - implement unique design
+  }
 
-      {/* Summary */}
-      {resumeData.personalInfo.summary && (
-        <section className="mb-8 bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-orange-600 mb-4">🎨 Creative Vision</h2>
-          <p className="text-gray-700 leading-relaxed">{resumeData.personalInfo.summary}</p>
-        </section>
-      )}
+  function renderElevateCareerResume() {
+    return renderTalentEdgeResume(); // Placeholder - implement unique design
+  }
 
-      {/* Skills */}
-      {resumeData.skills.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-3xl font-bold text-orange-600 mb-6 text-center">🖌️ Creative Skills</h2>
-          <div className="flex flex-wrap gap-3 justify-center">
-            {resumeData.skills.map((skill, index) => (
-              <span key={index} className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </section>
-      )}
+  function renderGrowthTrackCV() {
+    return renderCareerCatalyst(); // Placeholder - implement unique design
+  }
 
-      {/* Projects */}
-      {resumeData.projects && resumeData.projects.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-3xl font-bold text-orange-600 mb-6 text-center">🎭 Portfolio</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {resumeData.projects.map((project, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-bold text-orange-600">{project.name}</h3>
-                <p className="text-gray-700 mt-2">{project.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-    </div>
-  );
+  function renderJobQuestProfile() {
+    return renderNextStepProfile(); // Placeholder - implement unique design
+  }
 
-  const renderCorporateTemplate = () => (
-    <div className="font-sans bg-white text-gray-900 p-8 max-w-4xl mx-auto">
-      {/* Header */}
-      <header className="bg-gray-100 p-6 rounded-lg mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">{resumeData.personalInfo.name || 'Your Name'}</h1>
-        <p className="text-gray-600 mb-4">Professional Summary</p>
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            {resumeData.personalInfo.email && <p>📧 {resumeData.personalInfo.email}</p>}
-            {resumeData.personalInfo.phone && <p>📱 {resumeData.personalInfo.phone}</p>}
-          </div>
-          <div>
-            {resumeData.personalInfo.location && <p>📍 {resumeData.personalInfo.location}</p>}
-            {resumeData.personalInfo.linkedin && <p>💼 LinkedIn</p>}
-          </div>
-        </div>
-      </header>
-
-      {/* Summary */}
-      {resumeData.personalInfo.summary && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">PROFESSIONAL SUMMARY</h2>
-          <p className="text-gray-700 leading-relaxed">{resumeData.personalInfo.summary}</p>
-        </section>
-      )}
-
-      {/* Experience */}
-      {resumeData.experience.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">PROFESSIONAL EXPERIENCE</h2>
-          {resumeData.experience.map((exp, index) => (
-            <div key={index} className="mb-6 p-4 bg-gray-50 rounded-lg">
-              <h3 className="text-lg font-bold text-gray-800">{exp.title}</h3>
-              <p className="text-gray-600">{exp.company} | {exp.duration}</p>
-              <p className="text-gray-700 mt-2">{exp.description}</p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {/* Skills */}
-      {resumeData.skills.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">CORE COMPETENCIES</h2>
-          <div className="flex flex-wrap gap-2">
-            {resumeData.skills.map((skill, index) => (
-              <span key={index} className="bg-gray-200 text-gray-800 px-3 py-1 rounded text-sm">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </section>
-      )}
-    </div>
-  );
-
-  const renderStartupTemplate = () => (
-    <div className="font-sans bg-gradient-to-br from-blue-50 to-indigo-50 text-gray-800 p-8 max-w-4xl mx-auto">
-      {/* Header */}
-      <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-indigo-600 mb-2">{resumeData.personalInfo.name || 'Your Name'}</h1>
-        <p className="text-xl text-indigo-500 mb-4">Innovator & Problem Solver</p>
-        <div className="flex justify-center flex-wrap gap-4 text-gray-600">
-          {resumeData.personalInfo.email && <span>📧 {resumeData.personalInfo.email}</span>}
-          {resumeData.personalInfo.phone && <span>📱 {resumeData.personalInfo.phone}</span>}
-          {resumeData.personalInfo.location && <span>📍 {resumeData.personalInfo.location}</span>}
-        </div>
-      </header>
-
-      {/* Summary */}
-      {resumeData.personalInfo.summary && (
-        <section className="mb-8 bg-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-bold text-indigo-600 mb-4">🚀 Mission</h2>
-          <p className="text-gray-700 leading-relaxed">{resumeData.personalInfo.summary}</p>
-        </section>
-      )}
-
-      {/* Skills */}
-      {resumeData.skills.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-3xl font-bold text-indigo-600 mb-6 text-center">⚡ Superpowers</h2>
-          <div className="flex flex-wrap gap-3 justify-center">
-            {resumeData.skills.map((skill, index) => (
-              <span key={index} className="bg-indigo-500 text-white px-4 py-2 rounded-full text-sm font-medium">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Projects */}
-      {resumeData.projects && resumeData.projects.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-3xl font-bold text-indigo-600 mb-6 text-center">💡 Innovations</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {resumeData.projects.map((project, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-lg">
-                <h3 className="text-xl font-bold text-indigo-600">{project.name}</h3>
-                <p className="text-gray-700 mt-2">{project.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-    </div>
-  );
-
-  const renderAcademicTemplate = () => (
-    <div className="font-serif bg-white text-gray-900 p-8 max-w-4xl mx-auto">
-      {/* Header */}
-      <header className="text-center border-b-2 border-gray-300 pb-6 mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">{resumeData.personalInfo.name || 'Your Name'}</h1>
-        <p className="text-gray-600 mb-4">Academic Professional</p>
-        <div className="text-sm text-gray-600">
-          {resumeData.personalInfo.email && <p>📧 {resumeData.personalInfo.email}</p>}
-          {resumeData.personalInfo.phone && <p>📱 {resumeData.personalInfo.phone}</p>}
-          {resumeData.personalInfo.location && <p>📍 {resumeData.personalInfo.location}</p>}
-        </div>
-      </header>
-
-      {/* Summary */}
-      {resumeData.personalInfo.summary && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">RESEARCH INTERESTS</h2>
-          <p className="text-gray-700 leading-relaxed">{resumeData.personalInfo.summary}</p>
-        </section>
-      )}
-
-      {/* Education */}
-      {resumeData.education.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">EDUCATION</h2>
-          {resumeData.education.map((edu, index) => (
-            <div key={index} className="mb-4 p-4 bg-gray-50 rounded-lg">
-              <h3 className="text-lg font-bold text-gray-800">{edu.degree}</h3>
-              <p className="text-gray-600">{edu.institution}</p>
-              <p className="text-gray-500">{edu.year}{edu.gpa && ` | GPA: ${edu.gpa}`}</p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {/* Experience */}
-      {resumeData.experience.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">ACADEMIC EXPERIENCE</h2>
-          {resumeData.experience.map((exp, index) => (
-            <div key={index} className="mb-4">
-              <h3 className="text-lg font-bold text-gray-800">{exp.title}</h3>
-              <p className="text-gray-600">{exp.company} | {exp.duration}</p>
-              <p className="text-gray-700 mt-2">{exp.description}</p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {/* Skills */}
-      {resumeData.skills.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">RESEARCH SKILLS</h2>
-          <p className="text-gray-700">{resumeData.skills.join(', ')}</p>
-        </section>
-      )}
-    </div>
-  );
+  function renderDreamHireResume() {
+    return renderTalentEdgeResume(); // Placeholder - implement unique design
+  }
 
   return (
     <div className={`template-renderer ${preview ? 'preview-mode' : ''}`}>
@@ -664,4 +602,4 @@ const TemplateRenderer: React.FC<TemplateRendererProps> = ({ templateId, resumeD
   );
 };
 
-export default TemplateRenderer; 
+export default TemplateRenderer;
